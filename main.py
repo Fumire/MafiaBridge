@@ -1,30 +1,58 @@
 import pygame
+import sys
 from pygame.locals import *
 from custom_color import palette
 
-def main():
-    pygame.init()
-    
-    size = width, height = 1024,576
-    previous_stage, stage = -1, 0
-    
-    screen = pygame.display.set_mode(size)
-    pygame.display.set_caption("Mafia Bridge")
+pygame.init()
+pygame.display.set_caption("Mafia Bridge")
 
-    fontObjBig = pygame.font.Font("SeoulNamsanB.otf",width//16)
-    fontObjNormal = pygame.font.Font("SeoulNamsanB.otf",width//32)
-    fontObjSmall = pygame.font.Font("SeoulNamsanB.otf",width//64)
+size = width, height = 1024,576
+screen = pygame.display.set_mode(size)
+clock = pygame.time.Clock()
+objects = list()
+
+def clearObjects():
+    global objects
+    objects[:] = []
+
+def makeFont(string, x, y, size=1, color="black"):
+    global objects
+
+    fontObj= pygame.font.Font("SeoulNamsanB.otf", (width*size)//100)
+
+    stringSurfaceObj = fontObj.render(string, True, palette[color])
+    stringRectObj = stringSurfaceObj.get_rect()
+    stringRectObj.center = (x, y)
+    objects.append((stringSurfaceObj, stringRectObj))
+
+def main():
+    previousStage, stage = -1, 0
+    fps, realFps = 30, 0
+    flipFlag = False
 
     pygame.mouse.set_visible(True)
     while True:
         try:
-            screen.fill(palette["blue"])
+            screen.fill(palette["white"])
             if stage == 0:
-                pass
+                if previousStage != 0:
+                    flipFlag = True
+                    previousStage = 0
+                    print("stage 0")
+
+                    clearObjects()
+                    makeFont("Mafia Bridge", width//2, height//3, size=10)
             elif stage == 1:
                 pass
             elif stage == 2:
                 pass
+            for obj in objects:
+                screen.blit(obj[0], obj[1])
+            if flipFlag:
+                flipFlag = False
+                pygame.display.flip()
+            clock.tick(fps)
+            #event handler
             for event in pygame.event.get():
                 if event.type == MOUSEBUTTONUP:
                     pos = pygame.mouse.get_pos()
