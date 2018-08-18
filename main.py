@@ -35,6 +35,7 @@ def makeRectFont(string, x, y, w, h, fontSize=1, colorRect="red", colorFont="blu
     makeRect(x-w/2, y-h/2, w, h, colorRect)
 
 def checkPos(x1, y1, x2, y2):
+    x1, x2 = x1-x2/2, x1+x2/2; y1, y2 = y1-y2/2, y1+y2/2;
     x1 *= width; x2 *= width; y1 *= height; y2 *= height;
     return (pos[0]>x1) and (pos[0]<x2) and (pos[1]>y1) and (pos[1]<y2)
 
@@ -74,12 +75,8 @@ def main():
 
                     clearObjects()
                     setPlayer()
-                    makeFont("Player 1", 1/5, 1/7, size=5)
-                    makeFont("Player 2", 1/5, 2/7, size=5)
-                    makeFont("Player 3", 1/5, 3/7, size=5)
-                    makeFont("Player 4", 1/5, 4/7, size=5)
-                    makeFont("Player 5", 1/5, 5/7, size=5)
                     for i in range(5):
+                        makeFont("Player " + str(i+1), 1/5, (i+1)/7, size=5)
                         makeFont(player[i][0], 4/5, (i+1)/7, size=5, color=player[i][1])
                     makeRectFont("Change", 1/5, 6/7, 1/9, 1/14, fontSize=3)
                     makeRectFont("Next", 4/5, 6/7, 1/9, 1/14, fontSize=3)
@@ -101,7 +98,11 @@ def main():
                     if stage == 0:
                         stage = 1
                     if stage == 1:
-                        pass
+                        if checkPos(1/5, 6/7, 1/9, 1/14):
+                            setPlayer()
+                            previousStage = None
+                        elif checkPos(4/5, 6/7, 1/9, 1/14):
+                            stage = 2
                 elif event.type == KEYDOWN:
                     print("key:", event.key)
                 elif event.type == MOUSEMOTION:
