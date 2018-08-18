@@ -17,6 +17,11 @@ palette = {
         "gray":(128,128,128) 
         }
 
+def chooseColor(number=1):
+    ans = list(palette.keys())
+    random.shuffle(ans)
+    return ans[:number]
+
 playerName = ["Dale", "Leo", "Leon", "Leona", "Napoleon", "Rose", "Rosaria", "Lily", "Violet", "Maxwell", "Victor", "Victoria", "Ryan", "Bianca", "Misty", "Grace", "Margaret", "Benjamin", "Sophia", "Stella", "Amanda", "Gemma", "Clara", "Stallone", "Herminone", "Mature", "Jason", "Montgomery", "Cassiopeia", "Thatcher", "Smith", "Olivia", "Helen", "Hannah", "John", "Jane", "Julie", "Samantha", "Sarah"]
 
 def chooseName(number=1):
@@ -24,6 +29,5 @@ def chooseName(number=1):
     return playerName[:number]
 
 if __name__ == "__main__":
-    for key in sorted(palette.keys()):
-        print(key, palette[key])
+    print(chooseColor(number=5))
     print(chooseName(number=5))
