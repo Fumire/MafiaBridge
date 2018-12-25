@@ -1,12 +1,17 @@
-all: __pycache__/main.cpython-37.pyc
+VERSION = 37
+
+all: __pycache__/main.cpython-$(VERSION).pyc
 	python3 main.py
 
-__pycache__/main.cpython-37.pyc: main.py __pycache__/variable.cpython-37.pyc
-	python3 -c "import py_compile; py_compile.compile(r'main.py')"
+__pycache__/main.cpython-$(VERSION).pyc: main.py __pycache__/variable.cpython-$(VERSION).pyc __pycache__/engine.cpython-$(VERSION).pyc
+	python3 -c "import py_compile; py_compile.compile(r'$<')"
 
-__pycache__/variable.cpython-37.pyc: variable.py
-	python3 -c "import py_compile; py_compile.compile(r'variable.py')"
+__pycache__/engine.cpython-$(VERSION).pyc: engine.py
+	python3 -c "import py_compile; py_compile.compile(r'$<')"
+
+__pycache__/variable.cpython-$(VERSION).pyc: variable.py
+	python3 -c "import py_compile; py_compile.compile(r'$<')"
 
 clean:
-	rm -rf __pycache__
-	rm -f *.pyc
+	rm -rfv __pycache__
+	rm -fv *.pyc
